@@ -1,0 +1,51 @@
+package ru.invitro.automation.notification.telegram;
+
+public enum Stages {
+
+    EMPTY,
+    LIST,
+
+    ADD_REPORT_URL,
+    SAVE_REPORT_URL,
+
+    SELECT_URL_TO_REMOVE,
+    REMOVE_SELECTED_URL,
+
+    START_MONITORING,
+
+    STOP_MONITORING,
+
+    START_TESTS,
+    START_SELECTED_TEST,
+
+    STOP_TESTS,
+    STOP_SELECTED_TEST,
+
+    SELECT_REPORT_TEST,
+    REPORT,
+
+    ADD_URL_FOR_TOKEN_AUTH,
+    ADD_USER_FOR_TOKEN_AUTH,
+    ADD_TOKEN,
+    REENTER_AUTH,
+
+    SELECT_PROJECT_TYPE,
+    ENTER_PROJECT_NAME,
+    REENTER_PROJECT,
+
+    CONFIG_PROJECT,
+    SELECT_PROJECT_OPTION,
+    ENTER_OPTION_VALUE,
+    SAVE_CONFIG,
+
+    SELECT_REQUEST,
+    ACCEPT_REQUEST,
+
+    REMOVE_ADMIN_SELECT,
+    REMOVE_ADMIN_ACCEPT;
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
+}

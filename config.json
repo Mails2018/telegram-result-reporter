@@ -1,0 +1,57 @@
+{
+  "TelegramBotToken": "yourBotToken",
+  "TelegramBotName": "@yourBotName",
+  "ProxyServer": "",
+  "ProxyPort": 0,
+  "ProxyUser": "",
+  "ProxyPassword": "",
+  "ProxyType": "SOCKS5",
+  "JenkinsApiTokens": {
+    "http://jenkins.server.url:8080": [
+      "user",
+      "token"
+    ],
+    "http://otherjenkins.server.url:8082": [
+      "user2",
+      "toke2"
+    ]
+  },
+  "reports": {
+    "REPORTNAME": {
+      "reportName": "REPORTNAME",
+      "reportType": "STANDARD",
+      "checkLaunch": false,
+      "smoke": false,
+      "jobNumberBasedReport": false,
+      "period": 180000,
+      "urls": [
+        "http://jenkins.server.url:8080/job/reportjob/thucydides/"
+      ],
+      "chatsId": [
+        "chatId1",
+        "chatId2"
+      ]
+    },
+    "REPORT2": {
+      "reportName": "REPORT2",
+      "reportType": "WITH_TXT_FILE",
+      "checkLaunch": false,
+      "smoke": false,
+      "jobNumberBasedReport": false,
+      "period": 300000,
+      "urls": [
+        "http://otherjenkins.server.url:8082/job/otherjob/thucydides"
+      ],
+      "chatsId": [
+        "chatId3"
+      ]
+    }
+  },
+  "Admins": [
+    {
+      "id": 1,
+      "FirstName": "Admin"
+    }
+  ],
+  "KeepLogsInDays": 10
+}
