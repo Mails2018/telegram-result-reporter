@@ -5,6 +5,7 @@ import ru.invitro.automation.notification.data.prices.PriceCheckXml;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PriceCheckThucydiesReport extends AttachThucydiesReport {
 
@@ -22,7 +23,7 @@ public class PriceCheckThucydiesReport extends AttachThucydiesReport {
     protected List<File> getFiles() {
         List<File> files = new ArrayList<>();
         if (reportAvailable) {
-            if (getXmlReport().size() > 0) {
+            if (Objects.nonNull(getXmlReport()) && getXmlReport().size() > 0) {
                 PriceCheckXml xml = new PriceCheckXml(getXmlReport(), id);
                 xml.parse();
                 if (!xml.getOldProduct().isEmpty()) {

@@ -118,16 +118,16 @@ public class ProjectConfig {
         return urls;
     }
 
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
+
     public List<String> getJobNames() {
         List<String> result = new ArrayList<>();
-        for (String url:urls){
+        for (String url : urls) {
             result.add(UrlConverter.getJenkinsJobName(url));
         }
         return result;
-    }
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
     }
 
     public List<Long> getChatsId() {

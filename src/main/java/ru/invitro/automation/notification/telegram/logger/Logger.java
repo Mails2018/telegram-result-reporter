@@ -15,13 +15,13 @@ import java.util.regex.Pattern;
 
 public class Logger {
 
-    private static File logFile = null;
-
     private static final DateTimeFormatter logTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final DateTimeFormatter fileNameTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy-HH-mm-ss");
 
     private static final ReentrantLock logLock = new ReentrantLock();
+
+    private static File logFile = null;
 
     private static LocalDateTime logStart = LocalDateTime.now();
 

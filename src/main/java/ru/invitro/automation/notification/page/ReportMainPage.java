@@ -155,10 +155,6 @@ public class ReportMainPage extends Page {
             try {
                 if (openFailedTests()) {
                     List<String> xmlReports = getAttachReport();
-                    if (xmlReports.size() == 0) {
-                        throw new ReportReadException("Cannot get attached data");
-                    }
-                    report.setUnsuccessfulTestCount(xmlReports.size());
                     report.setXmlReport(xmlReports);
                 }
             } catch (ReportReadException | WebDriverException e) {
@@ -383,24 +379,32 @@ public class ReportMainPage extends Page {
         if (rows.size() > 0) {
             while (true) {
                 for (WebElement row : rows) {
-                    shortWait.until(ExpectedConditions.visibilityOfAllElements(row));
-                    WebElement icon = row.findElement(By.xpath("./ancestor::tr/td[6]//i"));
-                    String scenarioStatus = icon.getAttribute("title");
-                    String currentWindow = openInNewWindow(row);
-                    if (scenarioStatus.equals("FAILURE")) {
-                        longWait.until(ExpectedConditions.visibilityOf(reportButton));
-                        reportButton.click();
-                        longWait.until(ExpectedConditions.visibilityOf(reportButton));
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            Logger.writeLog(e.getMessage(), "");
-                            e.printStackTrace();
+                    try {
+                        shortWait.until(ExpectedConditions.visibilityOf(row));
+                        WebElement icon = row.findElement(By.xpath("./ancestor::tr/td[6]//i"));
+                        String scenarioStatus = icon.getAttribute("title");
+                        if (scenarioStatus.equals("FAILURE")) {
+                            String currentWindow = openInNewWindow(row);
+                            try {
+                                longWait.until(ExpectedConditions.visibilityOf(reportButton));
+                                reportButton.click();
+                                longWait.until(ExpectedConditions.visibilityOf(reportButton));
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException e) {
+                                    Logger.writeLog(e.getMessage(), "");
+                                    e.printStackTrace();
+                                }
+                                allTestsReport.add(attachReport.getText());
+                            } catch (WebDriverException e) {
+                                e.printStackTrace();
+                            }
+                            driver.close();
+                            driver.switchTo().window(currentWindow);
                         }
-                        allTestsReport.add(attachReport.getText());
+                    } catch (WebDriverException e) {
+                        e.printStackTrace();
                     }
-                    driver.close();
-                    driver.switchTo().window(currentWindow);
                 }
                 String nextButtonArgument = nextButton.getAttribute("class");
                 if (!nextButtonArgument.contains("disabled")) {

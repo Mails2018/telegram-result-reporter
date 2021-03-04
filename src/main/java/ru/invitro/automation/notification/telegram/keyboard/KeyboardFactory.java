@@ -9,6 +9,7 @@ import ru.invitro.automation.notification.config.admins.Request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class KeyboardFactory {
@@ -21,14 +22,29 @@ public class KeyboardFactory {
                 projectsName.add(projectName);
             }
         }
+        Collections.sort(projectsName);
+        return new Keyboard().makeKeyboard(projectsName, 3);
+    }
+
+    public static Keyboard makeNonProjectNamesKeyboard(Long chatID) {
+        List<String> projectsName = new ArrayList<>();
+        for (String projectName : ConfigReader.getProjects().keySet()) {
+            ProjectConfig projectConfig = ConfigReader.getProjects().get(projectName);
+            if (chatID == 0 || !projectConfig.getChatsId().contains(chatID)) {
+                projectsName.add(projectName);
+            }
+        }
+        Collections.sort(projectsName);
         return new Keyboard().makeKeyboard(projectsName, 3);
     }
 
     public static Keyboard makeProjectURLKeyboard(List<String> urls) {
+        Collections.sort(urls);
         return new Keyboard().makeKeyboard(urls, 1);
     }
 
     public static Keyboard makeProjectJobsKeyboard(List<String> jobs) {
+        Collections.sort(jobs);
         jobs.add(0, "ALL");
         return new Keyboard().makeKeyboard(jobs, 1);
     }

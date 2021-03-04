@@ -147,6 +147,7 @@ public class Bot extends TelegramLongPollingBot {
                 chatStatusList.put(currentChatID, new BotChat());
             }
             Keyboard chatProjectsKeyboard = KeyboardFactory.makeProjectNamesKeyboard(currentChatID);
+            Keyboard chatNonProjectsKeyboard = KeyboardFactory.makeNonProjectNamesKeyboard(currentChatID);
 
             String operationID = generateID();
             switch (message) {
@@ -180,8 +181,12 @@ public class Bot extends TelegramLongPollingBot {
 
                 case "/start_reports":
                     resetChat(currentChatID);
-                    keyboardMessageID = sendKeyboard("Start report sending by project", currentChatID, allProjectsKeyboard.getInlineKeyboard());
-                    setChat(currentChatID, Stages.START_MONITORING, keyboardMessageID, allProjectsKeyboard.getKeyboardButtons(), operationID);
+                    if (chatNonProjectsKeyboard.getKeyboardButtons().size() == 0) {
+                        send(currentChatID, "No available projects to select", operationID);
+                    } else {
+                        keyboardMessageID = sendKeyboard("Start report sending by project", currentChatID, chatNonProjectsKeyboard.getInlineKeyboard());
+                        setChat(currentChatID, Stages.START_MONITORING, keyboardMessageID, chatNonProjectsKeyboard.getKeyboardButtons(), operationID);
+                    }
                     break;
 
                 case "/get_report":
@@ -956,7 +961,7 @@ public class Bot extends TelegramLongPollingBot {
                         for (Long chatID : projectConfig.getChatsId()) {
                             sendReport(chatID, reportResult, operationID);
                         }
-                    } else if (job.getUnsuccessfulTestCount() < 0) {
+                    } else if (job.getUnsuccessfulTestCount() <= 0) {
                         monitoringFailCount.put(url, LocalDateTime.now().minusDays(2));
                     }
                     jenkinsApiConnector.startCurrentJob();

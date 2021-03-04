@@ -12,7 +12,8 @@ public class BotFactory {
 
     private static Bot bot = null;
 
-    /** If config has non empty ProxyServer and non zero ProxyPort bot will be use a proxy for connection
+    /**
+     * If config has non empty ProxyServer and non zero ProxyPort bot will be use a proxy for connection
      * If config has non empty ProxyUser and ProxyPassword bot will be use this credential for connection to proxy server
      * ProxyType param in config file must be NO_PROXY, HTTP, SOCKS4 or SOCKS5. If ProxyType has other value bot will be use NO_PROXY
      * @return configured bot
